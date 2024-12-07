@@ -1,0 +1,7 @@
+{
+  "name": "R3E-APP",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

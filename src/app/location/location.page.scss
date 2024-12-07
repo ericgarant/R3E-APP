@@ -1,0 +1,35 @@
+.map {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    opacity: 0;
+    transition: opacity 150ms ease-in;
+}
+
+.map.visible {
+    opacity: 1;
+}
+
+.marker-content {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;  /* Center elements horizontally */
+    border: 2px solid red; /* Visible border for debugging */
+    padding: 10px; /* Add some padding */
+}
+
+.marker-icon {
+    width: 32px;  /* Set the size of the custom icon */
+    height: 32px;
+    margin-bottom: 5px;  /* Space between the icon and label */
+    border: 2px solid blue; /* Visible border for debugging */
+}
+
+.marker-label {
+    font-size: 14px; /* Size of the label text */
+    color: #140fb5;  /* Color of the label text */
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid green; /* Visible border for debugging */
+}

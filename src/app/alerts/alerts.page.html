@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Alerts</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="disconnect()">
+        <ion-icon slot="start" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="toggleAlert()">
+        <ion-icon slot="start" name="flash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="clearLogs()">
+        <ion-icon slot="start" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Display connected device information and actions if a device is connected -->
+  <ion-item>
+    <ion-label
+      >Last Device Active: {{ bleService.characteristicValue$ | async
+      }}</ion-label
+    >
+  </ion-item>
+
+  <!-- Scrollable log component within the remaining space -->
+  <ion-content>
+    <div class="scrollable-log">
+      <ion-list>
+        <ion-item
+          *ngFor="let log of bleService.getNotificationLog().slice().reverse()"
+        >
+          <ion-label *ngIf="bleService.errLog">
+            [{{ log.value }}]: {{ log.timestamp | date:'longTime' }} log:
+            {{log.log}}
+          </ion-label>
+          <ion-label *ngIf="!bleService.errLog">
+            [{{ log.value }}]: {{ log.timestamp | date:'longTime' }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-content>
