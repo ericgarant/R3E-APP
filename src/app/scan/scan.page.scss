@@ -1,0 +1,9 @@
+.green-background {
+    --background: green !important;  /* Use the ionic --background CSS variable */
+    color: white !important;          /* Optional: Change text color to white */
+  }
+
+  ion-icon[name="bluetooth"] {
+    color: white; /* Change the color of the eye icon to match the text */
+  }
+

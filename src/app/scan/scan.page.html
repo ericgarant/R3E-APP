@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Devices</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="scan()">
+        <ion-icon slot="start" name="telescope"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="quitApp()">
+        <ion-icon slot="start" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Spinner shown while scanning for devices -->
+  <ion-item *ngIf="bleService.isScanning">
+    <ion-spinner></ion-spinner>
+    <ion-label>Scanning for devices...</ion-label>
+  </ion-item>
+
+  <!-- Devices list -->
+  <ion-list *ngIf="!bleService.isScanning && bleService.devices.length > 0">
+    <ion-item
+      *ngFor="let device of bleService.devices"
+      (click)="bleService.connect(device.deviceId)" button=""
+      [ngClass]="{'green-background': device.name?.startsWith('R3E')}"
+      [style.background-color]="device.name?.startsWith('R3E') ? 'green' : 'transparent'"
+    >
+      <ion-label>{{ device.name || 'Unnamed Device' }} - {{ device.deviceId }}</ion-label>
+
+      <!-- Conditionally display eye icon if device name starts with 'R3E' -->
+      <ion-icon *ngIf="device.name?.startsWith('R3E')" slot="end" name="bluetooth"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <!-- No devices found message -->
+  <ion-item *ngIf="!bleService.isScanning && bleService.devices.length === 0">
+    <ion-label>No devices found.</ion-label>
+  </ion-item>
+</ion-content>

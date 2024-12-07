@@ -1,0 +1,116 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+*~
+*.sw[mnpcod]
+.tmp
+*.tmp
+*.tmp.*
+UserInterfaceState.xcuserstate
+$RECYCLE.BIN/
+
+*.log
+log.txt
+
+
+/.sourcemaps
+/.versions
+/coverage
+
+# Ionic
+/.ionic
+/www
+/platforms
+/plugins
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+
+# Miscellaneous
+/.angular
+/.angular/cache
+.sass-cache/
+/.nx
+/.nx/cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+
+# Ionic/Capacitor/Android/iOS platform-specific files
+/ios/
+/android/
+/electron/
+
+# Capacitor configuration files
+/capacitor.config.ts
+/capacitor.config.json
+
+
+
+# Temporary files
+*.log
+*.log.*
+*.swp
+
+# IDE and editor files
+.idea/
+/.vscode/
+
+# Operating system files
+.DS_Store   # macOS
+Thumbs.db   # Windows
+
+# Environment variables files
+.env
+.env.*  # for environment-specific files
+*environments*
+
+
+# Environment-specific configurations (when using Capacitor)
+.env.local
+.env.development
+# Ignore all files in the environments folder
+/src/environments/*
+
+
+
+# npm package-lock.json or yarn.lock (you may want to include these, but usually ignored for client side code)
+# package-lock.json
+# yarn.lock
+
+# Optional: exclude Ionic local dev server history
+.history/
