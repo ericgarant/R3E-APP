@@ -5,12 +5,15 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { RangeCustomEvent } from '@ionic/angular';
 
+import { environment } from 'src/environments/environment'; // Import environment variables
+
 let notificationIdCounter = 1;
 
 @Injectable({
   providedIn: 'root',
 })
 export class BluetoothService {
+  private dn: number =3;
   public mapZoom: number = 16;
   private notificationSubject = new Subject<void>(); // Subject to notify of new notifications
   notification$ = this.notificationSubject.asObservable(); // Observable to subscribe to
@@ -25,6 +28,9 @@ export class BluetoothService {
 
   private characteristicValueSubject = new BehaviorSubject<string>('');
   characteristicValue$ = this.characteristicValueSubject.asObservable();
+
+  private _deviceNumberSubject = new BehaviorSubject<number>(this.dn);
+  deviceNumber$ = this._deviceNumberSubject.asObservable(); // Observable to observe the connection status
 
   private notificationLog: Array<{
     value: number;
@@ -155,11 +161,13 @@ export class BluetoothService {
   }
 
   // Write a value to toggle alerts
-  async writeToggleAlerts(value: boolean) {
+  async writeToggleAlerts() {
     if (!this.connectedDevice) {
       throw new Error('No device connected');
     }
-    const byteValue = new Uint8Array([value ? 1 : 0]); // Convert boolean to byte
+    //const byteValue = new Uint8Array(this.dn); // Convert boolean to byte
+    const byteValue = new Uint8Array([this.dn]);
+
     const dataView = new DataView(byteValue.buffer); // Convert ArrayBuffer to DataView
     try {
       await BleClient.write(
@@ -168,7 +176,7 @@ export class BluetoothService {
         this.toggleAlertsCharUUID,
         dataView
       );
-      console.log(`Toggled alerts: ${value}`);
+      console.log(`Toggled alerts: ${this.dn}`);
     } catch (error) {
       console.error('Failed to write toggle alerts value:', error);
     }
@@ -192,8 +200,8 @@ export class BluetoothService {
   }
 
   isConnected() {
-    //return this._isConnectedSubject.value;
-    return true;
+    return this._isConnectedSubject.value;
+    //return true;
   }
 
   // Save markers
@@ -219,7 +227,7 @@ export class BluetoothService {
         return `&markers=label:${index + 1}%7C${position.lat},${position.lng}`;
       })
       .join('');
-    this.staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBvOyBAwbsysgyF1xxQCA1ybWbuahMpA5I&size=400x600&maptype=satellite&zoom=${this.mapZoom}${markerLocations}`;
+    this.staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=${environment.googleMapsApiKey}&size=400x600&maptype=satellite&zoom=${this.mapZoom}${markerLocations}`;
     console.log();
     this.logTrace('Found Marker locations:' + markerLocations);
     return this.staticMapUrl;
@@ -232,8 +240,19 @@ export class BluetoothService {
         return `&markers=label:${index + 1}%7C${position.lat},${position.lng}`;
       })
       .join('');
-    this.staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBvOyBAwbsysgyF1xxQCA1ybWbuahMpA5I&size=400x600&maptype=satellite&zoom=${zoomLvl}${markerLocations}`;
+    this.staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=${environment.googleMapsApiKey}&size=400x600&maptype=satellite&zoom=${zoomLvl}${markerLocations}`;
     this.logTrace('Found Marker locations (upd):' + markerLocations);
     return this.staticMapUrl;
   }
+
+  incDeviceNumber() {
+    this.dn++;
+    this._deviceNumberSubject.next(this.dn);
+  }
+
+  decDeviceNumber() {
+    this.dn--;
+    this._deviceNumberSubject.next(this.dn);
+  }
+
 }

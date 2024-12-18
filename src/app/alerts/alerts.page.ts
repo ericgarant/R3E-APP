@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BluetoothService } from '../bluetooth.service';
 import { Subscription } from 'rxjs';
-
 import { addIcons } from 'ionicons';
-
-import { exit, flash, trash } from 'ionicons/icons';
+import { exit, flash, trash,add,remove } from 'ionicons/icons';
 
 import {
   IonContent,
@@ -48,14 +46,15 @@ export class AlertsPage implements OnInit, OnDestroy {
 
   constructor(
     public bleService: BluetoothService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
-    addIcons({ exit, flash, trash });
+    addIcons({ exit, flash, trash,add,remove});
   }
 
   toggleAlert() {
-    this.bleService.writeToggleAlerts(true);
+    this.bleService.writeToggleAlerts();
   }
+
   clearLogs() {
     this.bleService.clearNotificationLog();
   }
