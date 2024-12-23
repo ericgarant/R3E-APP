@@ -8,41 +8,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-grid style="height: 100%">
-    <ion-row style="flex: 9; height: 90%; margin: 0">
-      <ion-col
-        size="12"
-        style="
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-        "
-      >
-        <img
-          [src]="bleService.getStaticMapUrl()"
-          alt="Static Map"
-          *ngIf="bleService.getStaticMapUrl()"
-        />
-      </ion-col>
-    </ion-row>
-    <ion-row style="flex: 1; height: 10%; margin: 0">
+    <ion-row style="flex: 5; height: 100%; margin: 0">
       <ion-col
         size="12"
         style="display: flex; justify-content: center; align-items: center"
       >
-        <ion-item style="width: 90%">
-          <ion-range
-            aria-label="Zoom Level"
-            [ticks]="true"
-            [snaps]="true"
-            [min]="bleService.mapZoom"
-            [max]="21"
-            [value]="16"
-            (ionChange)="bleService.updateStaticMap($event)"
-          ></ion-range>
-        </ion-item>
+        <img
+          [src]="bleService.getImageUrl()"
+          *ngIf="bleService.getImageUrl()"
+          alt="Received Image"
+          style="max-width: 100%; height: auto"
+        />
       </ion-col>
     </ion-row>
   </ion-grid>
