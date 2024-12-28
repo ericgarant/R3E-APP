@@ -13,14 +13,16 @@ let notificationIdCounter = 1;
   providedIn: 'root',
 })
 export class BluetoothService {
-  private dn: number = 3;
+  private dn: number = 0;
   public mapZoom: number = 16;
   private notificationSubject = new Subject<void>(); // Subject to notify of new notifications
   notification$ = this.notificationSubject.asObservable(); // Observable to subscribe to
-  private imageUrl: string = '';
+  //private imageUrl: string = '';
 
   errLog: boolean = false;
   isScanning: boolean = false;
+  isGettingImage: boolean = false;
+
   devices: any[] = [];
   connectedDevice: any = null;
 
@@ -32,6 +34,11 @@ export class BluetoothService {
 
   private _deviceNumberSubject = new BehaviorSubject<number>(this.dn);
   deviceNumber$ = this._deviceNumberSubject.asObservable(); // Observable to observe the connection status
+
+  private imageUrlSubject = new BehaviorSubject<string | null>(null);
+  private previousUrl: string | null = null; // Track the previous URL
+
+  imageUrl$ = this.imageUrlSubject.asObservable();
 
   private notificationLog: Array<{
     value: number;
@@ -67,6 +74,23 @@ export class BluetoothService {
         this.logTrace('Notification permissions denied.');
       }
     });
+  }
+
+  // Update the image URL
+  setImageUrl(url: string) {
+    // Revoke the previous URL before setting the new one
+    if (this.previousUrl) {
+      this.logTrace(`Revoking URL: ${this.previousUrl}`);
+      URL.revokeObjectURL(this.previousUrl);
+    }
+
+    this.previousUrl = url; // Store the new URL for future revocation
+    this.imageUrlSubject.next(url);
+  }
+
+  // Get the current image URL (if needed synchronously)
+  getImageUrl(): string | null {
+    return this.imageUrlSubject.getValue();
   }
 
   logTrace(log: string) {
@@ -151,9 +175,9 @@ export class BluetoothService {
           const receivedChunk = new Uint8Array(value.buffer); // Copy the received chunk into the correct position of the image buffer
           this.imageBuffer.set(receivedChunk, this.bytesReceived);
           this.bytesReceived += receivedChunk.length;
-          this.logTrace(
-            `Receiving chunk: ${receivedChunk.length}, total bytes received: ${this.bytesReceived}`
-          );
+          //this.logTrace(
+          //  `Receiving chunk: ${receivedChunk.length}, total bytes received: ${this.bytesReceived}`
+          //);
 
           //this.logTrace(`Buffer: ${this.imageBuffer}`);
           // Check for end-of-transmission
@@ -161,11 +185,14 @@ export class BluetoothService {
             // Image transfer complete
             try {
               this.logTrace(`Total bytes received: ${this.bytesReceived}`);
+
               const blob = new Blob([this.imageBuffer], {
                 type: 'image/jpeg',
               });
-              // Assuming JPEG image
-              this.imageUrl = URL.createObjectURL(blob);
+
+              const newImageUrl = URL.createObjectURL(blob);
+              this.setImageUrl(newImageUrl);
+              this.isGettingImage = false;
 
               // Clean up
               this.imageBuffer = new Uint8Array(0);
@@ -190,6 +217,7 @@ export class BluetoothService {
             timestamp: currentTime,
             log: '',
           });
+          if (this.isGettingImage) return; // path, because i dont know why, but i get motion notification when transferring the image - to be investitated !!!
           this.characteristicValueSubject.next('[' + alertValue + ']');
           this.logTrace(
             `Notification received: ${alertValue} at ${currentTime}`
@@ -236,7 +264,7 @@ export class BluetoothService {
     }
     //const byteValue = new Uint8Array(this.dn); // Convert boolean to byte
     const byteValue = new Uint8Array([this.dn]);
-
+    this.isGettingImage = true;
     const dataView = new DataView(byteValue.buffer); // Convert ArrayBuffer to DataView
     try {
       await BleClient.write(
@@ -280,11 +308,6 @@ export class BluetoothService {
   // Get markers
   getMarkers() {
     return this.markers;
-  }
-
-  // Get image URL
-  getImageUrl() {
-    return this.imageUrl;
   }
 
   // Save static map URL

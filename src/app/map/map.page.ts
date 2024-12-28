@@ -27,8 +27,8 @@ import {
   IonLabel,
   IonButtons,
   IonMenuButton,
-  IonRange,
   IonItem,
+  IonSpinner,
   IonGrid,IonRow,IonCol
 } from '@ionic/angular/standalone';
 
@@ -49,7 +49,7 @@ import {
     IonLabel,
     IonButtons,
     IonMenuButton,
-    IonRange,
+    IonSpinner,
     IonItem,IonGrid,IonRow,IonCol
   ],
 })
@@ -57,5 +57,9 @@ export class MapPage {
   //mapZoom: number = 16;
   constructor(public bleService: BluetoothService) {
     addIcons({ map });
+  }
+
+  toggleAlert() {
+    this.bleService.writeToggleAlerts();
   }
 }
