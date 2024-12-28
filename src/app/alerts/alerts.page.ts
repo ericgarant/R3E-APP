@@ -51,9 +51,7 @@ export class AlertsPage implements OnInit, OnDestroy {
     addIcons({ exit, flash, trash,add,remove});
   }
 
-  toggleAlert() {
-    this.bleService.writeToggleAlerts();
-  }
+  
 
   clearLogs() {
     this.bleService.clearNotificationLog();

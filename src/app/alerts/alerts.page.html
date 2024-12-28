@@ -20,25 +20,7 @@
 
 <ion-content [fullscreen]="true">
   <!-- Input field for device number -->
-  <ion-item>
-    <ion-label>Target</ion-label>
-    <ion-buttons slot="end">
-      <ion-button fill="outline" (click)="bleService.decDeviceNumber()">
-        <ion-icon slot="start" name="remove"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-label>{{ bleService.deviceNumber$ | async }}</ion-label>
-    <ion-buttons slot="end">
-      <ion-button fill="outline" (click)="bleService.incDeviceNumber()">
-        <ion-icon slot="start" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button fill="outline" (click)="toggleAlert()">
-        <ion-icon slot="start" name="flash"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-item>
+  
 
   <!-- Display connected device information and actions if a device is connected -->
   <ion-item>

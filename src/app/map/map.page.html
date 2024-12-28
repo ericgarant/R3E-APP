@@ -3,21 +3,53 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>My Map</ion-title>
+    <ion-title>Device's Snapshot </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label>Target</ion-label>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="bleService.decDeviceNumber()">
+        <ion-icon slot="start" name="remove"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-label>{{ bleService.deviceNumber$ | async }}</ion-label>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="bleService.incDeviceNumber()">
+        <ion-icon slot="start" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        fill="outline"
+        [disabled]="bleService.isGettingImage"
+        (click)="toggleAlert()"
+      >
+        <ion-icon slot="start" name="camera"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
 
   <ion-grid style="height: 100%">
     <ion-row style="flex: 5; height: 100%; margin: 0">
       <ion-col
         size="12"
-        style="display: flex; justify-content: center; align-items: center"
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+        "
       >
+        <ion-spinner
+          *ngIf="bleService.isGettingImage"
+          style="position: absolute; width: 75px; height: 75px; color: #90ee90"
+        ></ion-spinner>
         <img
-          [src]="bleService.getImageUrl()"
-          *ngIf="bleService.getImageUrl()"
+          [src]="bleService.imageUrl$ | async"
+          *ngIf="bleService.imageUrl$ | async"
           alt="Received Image"
           style="max-width: 100%; height: auto"
         />
