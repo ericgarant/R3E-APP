@@ -8,6 +8,20 @@ import { RangeCustomEvent } from '@ionic/angular';
 import { environment } from 'src/environments/environment'; // Import environment variables
 
 let notificationIdCounter = 1;
+export interface Node {
+  nodeID: number;
+  isHub: boolean;
+  hasCam: boolean;
+  currentMAC: number[];
+  previousMAC: number[];
+  nextMACsCount: number;
+  nextMACs: number[][];
+}
+
+export interface R3ENetwork {
+  nodeCount: number;
+  nodeList: Node[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +64,7 @@ export class BluetoothService {
   charUUID = 'beb5483e-36e1-4688-b7f5-ea07361b26a8'; // Character for receiving general data
   sendingPictureCharUUID = '2f47b012-ba1d-4a90-b28b-49ca6bcf2a8b'; // Character for picture transfer notification
   pictureDataCharUUID = '0193b6d1-4e1b-745d-ac16-ba9af8fbb405'; // Character for receiving picture data
+  settingsCharUUID = 'a5d24a6f-5fde-494d-8eaf-9b045a6e4f98';
 
   toggleAlertsCharUUID = '50c07f71-e239-4f5c-825e-2cc13e914778';
 
@@ -349,5 +364,190 @@ export class BluetoothService {
   decDeviceNumber() {
     this.dn--;
     this._deviceNumberSubject.next(this.dn);
+  }
+
+  private _myNetwork: R3ENetwork = {
+    nodeCount: 10,
+    nodeList: [
+      {
+        nodeID: 0,
+        isHub: true,
+        hasCam: true,
+        currentMAC: [0xac, 0x15, 0x18, 0xf4, 0x40, 0xd8],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 2,
+        nextMACs: [
+          [0x0c, 0xb8, 0x15, 0x07, 0x43, 0x7c],
+          [0xac, 0x15, 0x18, 0xf4, 0x77, 0xe4],
+        ],
+      },
+      {
+        nodeID: 1,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0x0c, 0xb8, 0x15, 0x07, 0x43, 0x7c],
+        previousMAC: [0xac, 0x15, 0x18, 0xf4, 0x40, 0xd8],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 2,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0xac, 0x15, 0x18, 0xf4, 0x77, 0xe4],
+        previousMAC: [0xac, 0x15, 0x18, 0xf4, 0x40, 0xd8],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 3,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 4,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 5,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 6,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 7,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 8,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+        ],
+      },
+      {
+        nodeID: 9,
+        isHub: false,
+        hasCam: true,
+        currentMAC: [0, 0, 0, 0, 0, 0],
+        previousMAC: [0, 0, 0, 0, 0, 0],
+        nextMACsCount: 0,
+        nextMACs: [
+          [0, 0, 0, 0, 0, 0],
+          [0x01, 0x02, 0x03, 0x04, 0x05, 0x06],
+        ],
+      },
+    ],
+  };
+  getNetwork() {
+    return this._myNetwork;
+  }
+
+  serializeNetwork(network: R3ENetwork): Uint8Array {
+    const buffer = [];
+    buffer.push(network.nodeCount);
+    for (const node of network.nodeList) {
+      buffer.push(node.nodeID);
+      buffer.push(node.isHub ? 1 : 0);
+      buffer.push(node.hasCam ? 1 : 0);
+      buffer.push(...node.currentMAC);
+      buffer.push(...node.previousMAC);
+      buffer.push(node.nextMACsCount);
+      for (const mac of node.nextMACs) {
+        buffer.push(...mac);
+      }
+    }
+    return new Uint8Array(buffer);
+  }
+
+  serializeNetworkWithHeader(network: R3ENetwork): Uint8Array {
+    const serializedData = this.serializeNetwork(network);
+    const totalSize = serializedData.length;
+    const buffer = new Uint8Array(4 + totalSize); // 4 bytes for the header
+
+    // Write the total size to the header
+    buffer[0] = (totalSize >> 24) & 0xff;
+    buffer[1] = (totalSize >> 16) & 0xff;
+    buffer[2] = (totalSize >> 8) & 0xff;
+    buffer[3] = totalSize & 0xff;
+
+    // Write the serialized data
+    buffer.set(serializedData, 4);
+
+    return buffer;
+  }
+
+  async sendNetworkData() {
+    const serializedData = this.serializeNetworkWithHeader(this._myNetwork);
+    const chunkSize = 200; // Max BLE MTU size you can negotiate
+    const chunks = Math.ceil(serializedData.length / chunkSize);
+
+    try {
+      for (let i = 0; i < chunks; i++) {
+        const chunk = serializedData.slice(i * chunkSize, (i + 1) * chunkSize);
+        const dataView = new DataView(chunk.buffer);
+        await BleClient.write(
+          this.connectedDevice,
+          this.serviceUUID,
+          this.settingsCharUUID,
+          dataView
+        );
+      }
+      console.log('Network data sent successfully');
+    } catch (error) {
+      console.error('Failed to send network data', error);
+    }
   }
 }
