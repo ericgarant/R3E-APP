@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Node</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="currentNodeForm" (ngSubmit)="editNode()">
+    <!-- Node ID Input -->
+    <ion-item>
+      <ion-label position="floating">Node ID</ion-label>
+      <ion-input
+        type="number"
+        formControlName="nodeID"
+        required
+        [class.invalid]="currentNodeForm.controls['nodeID'].invalid && currentNodeForm.controls['nodeID'].touched"
+      ></ion-input>
+      <ion-note
+        color="danger"
+        *ngIf="currentNodeForm.controls['nodeID'].invalid && currentNodeForm.controls['nodeID'].touched"
+      >
+        Node ID is required and must be a positive number.
+      </ion-note>
+    </ion-item>
+
+    <!-- Current MAC Input -->
+    <ion-item>
+      <ion-label position="floating">Current MAC (6 numbers)</ion-label>
+      <ion-input
+        type="text"
+        formControlName="currentMAC"
+        placeholder="Enter 6 MAC numbers separated by commas"
+        required
+      ></ion-input>
+      <ion-note
+        color="danger"
+        *ngIf="currentNodeForm.controls['currentMAC'].invalid && currentNodeForm.controls['currentMAC'].touched"
+      >
+        Please enter exactly 6 valid numbers (0-255).
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Previous MAC</ion-label>
+      <ion-radio-group formControlName="previousMAC">
+        <ion-item *ngFor="let mac of currentMACs">
+          <ion-label>{{ mac }}</ion-label>
+          <ion-radio slot="start" [value]="mac"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+    
+
+    <ion-item>
+      <ion-label position="floating">Next MACs</ion-label>
+      <ion-checkbox-group formControlName="nextMACs">
+        <ion-item *ngFor="let mac of currentMACs">
+          <ion-label>{{ mac }}</ion-label>
+          <ion-checkbox slot="start" [value]="mac"></ion-checkbox>
+        </ion-item>
+      </ion-checkbox-group>
+    </ion-item>
+    
+
+    <!-- Checkboxes for Is Hub and Has Camera -->
+    <ion-item>
+      <ion-label>Is Hub</ion-label>
+      <ion-checkbox formControlName="isHub" color="primary"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Has Camera</ion-label>
+      <ion-checkbox formControlName="hasCam" color="primary"></ion-checkbox>
+    </ion-item>
+
+    <!-- Save Button -->
+    <ion-row>
+      <ion-col>
+        <ion-button
+          expand="full"
+          type="submit"
+          [disabled]="!currentNodeForm.valid"
+          >Save Changes</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
