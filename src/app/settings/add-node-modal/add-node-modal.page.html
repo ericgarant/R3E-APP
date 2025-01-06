@@ -1,0 +1,52 @@
+<!-- add-node-modal.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Node</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form (ngSubmit)="addNode()">
+    <ion-item>
+      <ion-label position="floating">Node ID</ion-label>
+      <ion-input
+        type="number"
+        [(ngModel)]="newNode.nodeID"
+        name="nodeID"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Current MAC</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="newNode.currentMAC"
+        name="currentMAC"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Previous MAC</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="newNode.previousMAC"
+        name="previousMAC"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Next MACs</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="newNode.nextMACs"
+        name="nextMACs"
+      ></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="full" type="submit">Add Node</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

@@ -6,22 +6,10 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { RangeCustomEvent } from '@ionic/angular';
 //import { Filesystem, Directory } from '@capacitor/filesystem';
 import { environment } from 'src/environments/environment'; // Import environment variables
+import { R3ENetwork } from './network.model';
 
 let notificationIdCounter = 1;
-export interface Node {
-  nodeID: number;
-  isHub: boolean;
-  hasCam: boolean;
-  currentMAC: number[];
-  previousMAC: number[];
-  nextMACsCount: number;
-  nextMACs: number[][];
-}
 
-export interface R3ENetwork {
-  nodeCount: number;
-  nodeList: Node[];
-}
 
 @Injectable({
   providedIn: 'root',
